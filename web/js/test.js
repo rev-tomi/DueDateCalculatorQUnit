@@ -1,24 +1,12 @@
-QUnit.test("dueDate Identity", function(assert) {
-  var now = new Date();
-  var dueDate = dueDateCalculator(new Date(), 0);
-  assert.equal(dueDate.getTime(), now.getTime(), "Zero hours is identity");
-});
-
-QUnit.test("dueDate same day", function(assert) {
-  var day = new Date(2014, 12, 22, 9),
-      hours = 2,
-      dueDate = dueDateCalculator(day, hours);
-  assert.equal( dueDate.getTime(),
-                new Date(2014, 12, 22, 11).getTime(),
-                "Adding some time within the same day");
-});
-
-QUnit.test("dueDate accross a day", function(assert) {
-  var day = new Date(2014, 11, 22, 16, 0, 0, 0),
-      hours = 2,
-      dueDate = dueDateCalculator(day, hours);
-  assert.equal( dueDate.getTime(),
-                new Date(2014, 11, 23, 10).getTime(),
-                "Adding some time that ends the next day");
+QUnit.test("dueDate", function(assert) {
   
+  var assertDueDate = function(start, hours, end, msg) {
+    var dueDate = dueDateCalculator(start, hours);
+    assert.equal(dueDate.getTime(), end.getTime(), msg);
+  },
+  now = new Date();
+  
+  assertDueDate(now, 0, now, "Zero hours is identity");
+  assertDueDate(new Date(2014, 12, 22, 9), 2, new Date(2014, 12, 22, 11), "Adding some time within the same day");
+  assertDueDate(new Date(2014, 11, 22, 16, 0, 0, 0), 2, new Date(2014, 11, 23, 10), "Adding some time that ends the next day");
 });
