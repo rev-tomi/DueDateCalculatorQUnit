@@ -29,7 +29,11 @@ dueDateCalculator.workTimeSchedule = {
       var milliseconds = time.getTime(),
           result = new Date(milliseconds),
           difference = 0;
-     
+      
+      if (this.isWorkPeriod(time)) {
+        return time;
+      }
+      
       if (time.getDay() == 6) {
         console.log('adding 2 days');
         difference += 2 * dayInMillisec;

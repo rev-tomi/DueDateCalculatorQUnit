@@ -16,4 +16,5 @@ QUnit.test("workTimeSchedule", function(assert) {
   
   assert.ok(workTimeSchedule.isWorkPeriod(new Date(2014, 12, 9, 9)));
   assert.equal(workTimeSchedule.startOfNextPeriod(new Date(2014, 11, 9, 7)).getTime(), new Date(2014, 11, 9, 9).getTime());
+  assert.equal(workTimeSchedule.startOfNextPeriod(new Date(2014, 11, 9, 11)).getTime(), new Date(2014, 11, 9, 11).getTime());
 });
