@@ -34,18 +34,19 @@ dueDateCalculator.workTimeSchedule = {
         return time;
       }
       
+      if (17 <= time.getHours()) {
+        milliseconds += (24 - time.getHours()) * hourInMillisec;
+        time = new Date(milliseconds);
+      }
+      time = new Date(milliseconds + (9 - time.getHours()) * hourInMillisec);
+      milliseconds = time.getTime();
+      
       if (time.getDay() == 6) {
-        console.log('adding 2 days');
         difference += 2 * dayInMillisec;
       } else if (time.getDay() == 0) {
-        console.log('adding 1 day');
         difference += dayInMillisec;
       }
     
-      difference += (9 - time.getHours()) * hourInMillisec;
-    
-      console.log('original milliseconds: ' + milliseconds);
-      console.log('difference: ' + difference);
       return millisAsDateTrimmedToHours(milliseconds + difference);
     };
   }(),
