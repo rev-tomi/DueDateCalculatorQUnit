@@ -23,31 +23,33 @@ dueDateCalculator.workTimeSchedule = {
         millisAsDateTrimmedToHours = function(millis) {
           var untrimmed = new Date(millis);
           return new Date(untrimmed.getFullYear(), untrimmed.getMonth(), untrimmed.getDate(), untrimmed.getHours());
+        },
+        adjustHours = function(date) {
+          var result = date;
+          if (17 <= result.getHours()) {
+            result = new Date(result.getTime() + (24 - result.getHours()) * hourInMillisec);
+          }
+          return new Date(result.getTime() + (9 - result.getHours()) * hourInMillisec);
+        },
+        adjustDays = function(date) {
+          var difference = 0;
+          if (date.getDay() == 6) {
+            difference += 2 * dayInMillisec;
+          } else if (date.getDay() == 0) {
+            difference += dayInMillisec;
+          }
+          return new Date(date.getTime() + difference);
         };
     
-    return function(time) {
-      var milliseconds = time.getTime(),
-          result = new Date(milliseconds),
-          difference = 0;
-      
-      if (this.isWorkPeriod(time)) {
-        return time;
+    return function(date) {
+      var result = date;
+      if (this.isWorkPeriod(date)) {
+        return date;
       }
       
-      if (17 <= time.getHours()) {
-        milliseconds += (24 - time.getHours()) * hourInMillisec;
-        time = new Date(milliseconds);
-      }
-      time = new Date(milliseconds + (9 - time.getHours()) * hourInMillisec);
-      milliseconds = time.getTime();
-      
-      if (time.getDay() == 6) {
-        difference += 2 * dayInMillisec;
-      } else if (time.getDay() == 0) {
-        difference += dayInMillisec;
-      }
-    
-      return millisAsDateTrimmedToHours(milliseconds + difference);
+      result = adjustHours(result);
+      result = adjustDays(result);
+      return millisAsDateTrimmedToHours(result.getTime());
     };
   }(),
 };
