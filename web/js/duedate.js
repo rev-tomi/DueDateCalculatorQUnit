@@ -11,6 +11,11 @@ var dueDateCalculator = function() {
 
 dueDateCalculator.workTimeSchedule = {
   
+  'millisAsDateTrimmedToHours' : function(millis) {
+    var untrimmed = new Date(millis);
+    return new Date(untrimmed.getFullYear(), untrimmed.getMonth(), untrimmed.getDate(), untrimmed.getHours());
+  },
+  
   'isWorkPeriod' : function(time) {
     var day = time.getDay();
         hour = time.getHours();
@@ -20,12 +25,8 @@ dueDateCalculator.workTimeSchedule = {
   'startOfNextPeriod' : function() {
     var hourInMillisec = 60 * 60 * 1000,
         dayInMillisec = 24 * hourInMillisec,
-        millisAsDateTrimmedToHours = function(millis) {
-          var untrimmed = new Date(millis);
-          return new Date(untrimmed.getFullYear(), untrimmed.getMonth(), untrimmed.getDate(), untrimmed.getHours());
-        },
         adjustHours = function(date) {
-          var result = date;
+          var result = new Date(date.getTime());
           if (16 <= result.getHours()) {
             result = new Date(result.getTime() + (24 - result.getHours()) * hourInMillisec);
           }
@@ -42,21 +43,24 @@ dueDateCalculator.workTimeSchedule = {
         };
     
     return function(date) {
-      var result = date;
+      var result = new Date(date.getTime());
       if (this.isWorkPeriod(date)) {
         return date;
       }
       
       result = adjustHours(result);
       result = adjustDays(result);
-      return millisAsDateTrimmedToHours(result.getTime());
+      return this.millisAsDateTrimmedToHours(result.getTime());
     };
   }(),
   
   'millisToEndOfCurrentPeriod' : function (date) {
+    var endOfPeriod = new Date(date.getTime());
     if ( ! this.isWorkPeriod(date)) {
       return 0;
     }
-    return -1;
+    endOfPeriod.setHours(16);
+    endOfPeriod = this.millisAsDateTrimmedToHours(endOfPeriod.getTime());
+    return endOfPeriod.getTime() - date.getTime();
   },
 };

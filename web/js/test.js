@@ -21,5 +21,5 @@ QUnit.test("workTimeSchedule", function(assert) {
   assert.equal(workTimeSchedule.startOfNextPeriod(new Date(2014, 11, 26, 19)).getTime(), new Date(2014, 11, 29, 8).getTime(), "Weekend inbetween");
   
   assert.equal(0, workTimeSchedule.millisToEndOfCurrentPeriod(new Date(2014, 11, 9, 19)), "Millis to end - outside of work period");
-  //assert.equal(3600000, workTimeSchedule.millisToEndOfCurrentPeriod(new Date(2014, 11, 9, 16)), "Millis to end - one hour");
+  assert.equal(3600000, workTimeSchedule.millisToEndOfCurrentPeriod(new Date(2014, 11, 9, 15)), "Millis to end - one hour");
 });
