@@ -14,7 +14,7 @@ dueDateCalculator.workTimeSchedule = {
   'isWorkPeriod' : function(time) {
     var day = time.getDay();
         hour = time.getHours();
-    return 0 < day && day < 6 && 9 <= hour && hour < 17;
+    return 0 < day && day < 6 && 8 <= hour && hour < 16;
   },
   
   'startOfNextPeriod' : function() {
@@ -26,10 +26,10 @@ dueDateCalculator.workTimeSchedule = {
         },
         adjustHours = function(date) {
           var result = date;
-          if (17 <= result.getHours()) {
+          if (16 <= result.getHours()) {
             result = new Date(result.getTime() + (24 - result.getHours()) * hourInMillisec);
           }
-          return new Date(result.getTime() + (9 - result.getHours()) * hourInMillisec);
+          return new Date(result.getTime() + (8 - result.getHours()) * hourInMillisec);
         },
         adjustDays = function(date) {
           var difference = 0;
@@ -52,4 +52,11 @@ dueDateCalculator.workTimeSchedule = {
       return millisAsDateTrimmedToHours(result.getTime());
     };
   }(),
+  
+  'millisToEndOfCurrentPeriod' : function (date) {
+    if ( ! this.isWorkPeriod(date)) {
+      return 0;
+    }
+    return -1;
+  },
 };
