@@ -1,5 +1,7 @@
 var dueDateCalculator = function() {
   
+  var hoursInMillisec = 60 * 60 * 1000;
+  
   var calculatorImpl = function (startDate, millis, workTimeSchedule) {
     var result = new Date(startDate.getTime()), millisLeft = millis, timeLeftInThisPeriod = 0;;
     while (0 < millisLeft) {
@@ -20,7 +22,7 @@ var dueDateCalculator = function() {
   };
   
   return function(startDate, hours) {
-    return calculatorImpl(startDate, hours * 60 * 60 * 1000, dueDateCalculator.workTimeSchedule);
+    return calculatorImpl(startDate, hours * hoursInMillisec, dueDateCalculator.workTimeSchedule);
   };
 }();
 
