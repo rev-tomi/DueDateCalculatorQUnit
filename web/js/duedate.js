@@ -21,8 +21,8 @@ var dueDateCalculator = function() {
     return result;
   };
   
-  return function(startDate, hours) {
-    return calculatorImpl(startDate, hours * hoursInMillisec, dueDateCalculator.workTimeSchedule);
+  return function(startDate, hours, workTimeSchedule) {
+    return calculatorImpl(startDate, hours * hoursInMillisec, workTimeSchedule || dueDateCalculator.workTimeSchedule);
   };
 }();
 
