@@ -36,7 +36,7 @@ dueDateCalculator.workTimeSchedule = function() {
     },
     
     'isWorkPeriod' : function(time) {
-      var day = time.getDay();
+      var day = time.getDay(),
           hour = time.getHours();
       return 0 < day && day < 6 && START <= hour && hour < END;
     },
