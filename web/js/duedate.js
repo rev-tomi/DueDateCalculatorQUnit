@@ -1,10 +1,8 @@
 var dueDateCalculator = function() {
   
-  var HOURS_IN_MILLISEC = 60 * 60 * 1000;
-  
-  var calculatorImpl = function (startDate, millis, workTimeSchedule) {
+  var HOURS_IN_MILLISEC = 60 * 60 * 1000, calculatorImpl = function (startDate, millis, workTimeSchedule) {
     var result = new Date(startDate.getTime()), millisLeft = millis, timeLeftInThisPeriod = 0;;
-    while (0 < millisLeft) {
+    while (0 < millisLeft) { // using a while-loop instead of recursion: sparing some stack space
       if ( ! workTimeSchedule.isWorkPeriod(result)) {
         result = workTimeSchedule.startOfNextPeriod(result);
       }
